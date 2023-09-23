@@ -1,3 +1,5 @@
+# Maintainer: Patrick Nikanti 2023
+
 import json
 import sys
 

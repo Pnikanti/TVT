@@ -3,33 +3,24 @@
 import sys
 import time
 import json
-from utils import parse_json
 from psycopg2._psycopg import cursor as psqlcursor
 from connect import Connect, connect
 
 def dump(dbname: str, table: str, filepath: str, credentials_filepath: str = "secrets.json"):
     """
-    Dump JSON in to a psql database.
+    Dump JSON file into a psql table.
     """
-    secrets: dict = parse_json(filepath=credentials_filepath)
-    
-    with open(filepath, "r") as handle:
-        data: str = json.load(handle)
-
-    psql: Connect = connect(
-        dbname=dbname,
-        user=secrets['user'],
-        password=secrets['password'],
-        host=secrets['host'],
-        port=secrets['port']
-    )
+    psql: Connect = connect(dbname=dbname)
     database: psqlcursor = psql.database
     database.execute(
         f"SELECT count(*) from {table}"
     )
 
+    with open(filepath, "r") as handle:
+        data: str = json.load(handle)
     id = database.fetchone()[0]
     now = int(time.time())
+    
     database.execute(
         f"INSERT INTO {table} (id, timestamp, data) VALUES({id}, {now}, '{json.dumps(data)}')"
     )

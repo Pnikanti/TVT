@@ -3,7 +3,6 @@
 import sys
 from psycopg2._psycopg import cursor as psqlcursor
 from connect import Connect, connect
-from utils import parse_json
 
 psql: Connect = connect()
 database : psqlcursor = psql.database
