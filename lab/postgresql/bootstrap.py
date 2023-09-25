@@ -43,6 +43,7 @@ def bootstrap(database_name: str):
     database.execute(
         f"""CREATE TABLE posts (
             id SERIAL PRIMARY KEY,
+            username VARCHAR (20) NOT NULL,
             timestamp INTEGER NOT NULL,
             data JSON
         )"""
