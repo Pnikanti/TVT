@@ -8,6 +8,7 @@ app = Flask(__name__)
 @app.route("/example", methods = ["GET", "POST"])
 def example():
     print(f"Received a request {request.remote_addr}: {request.method} /example")
+    
     if request.method == "POST":
         payload = json.loads(request.data.decode("iso-8859-1"))
         database.example.insert_one(payload)

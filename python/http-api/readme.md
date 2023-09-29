@@ -5,4 +5,4 @@
     3. Visit localhost:5000/example to GET the inserted data
 
 ### TODO
-**Customize the start.sh script to include volume mounting also?**
+- **Customize the start.sh script to include volume mounting also?**
