@@ -1,6 +1,6 @@
 # ⚡ Tieto- ja viestintätekniikan PT. kurssimateriaali 
-Koulutuskeskus Tavastian TVT-alan kurssimateriaalia löytyy täältä.
+Koulutuskeskus Tavastian TVT -alan kurssimateriaalia löytyy täältä.
 
 ----------------
-🚧 Repositorio kesken, muutoksia tulee 🚧
+🚧 🚧
 ----------------
