@@ -15,12 +15,28 @@ def bootstrap(database_name: str):
 
     Table 'posts'
 
-    - post_id (SERIAL PK)
-    - post_timestamp (TIMESTAMP NOT NULL)
-    - post_data (JSON NOT NULL)
+    - id (SERIAL PK)
+    - username (VARCHAR(20) NOT NULL)
+    - timestamp (INTEGER NOT NULL)
+    - data (JSON NOT NULL)
     """
     global psql
     global database
+
+    database.execute(
+        f"""SELECT (usename) FROM pg_catalog.pg_user WHERE usename = 'admin'"""
+    )
+    user_exists = database.fetchone()
+
+    # TODO: Change hardcoded credentials to be fetched from a secrets file
+    # TODO: Add this task to a branch and make it a separate Moodle task.
+    
+    if (user_exists):
+        print(f"User 'admin' exists, not creating a new one")
+    else:
+        database.execute(
+            f"""CREATE USER 'admin' WITH SUPERUSER PASSWORD 'admin'"""
+        )
 
     database.execute(
         f"""SELECT (datname) FROM pg_database WHERE datname = '{database_name}'"""
@@ -54,7 +70,7 @@ if __name__ == '__main__':
         print("You don't know what you're doing. Exiting..")
         exit(0)
 
-    if database_name := str(sys.argv[2]):
+    if database_name := str(sys.argv[2]).lower():
         bootstrap(
             database_name=database_name
         )

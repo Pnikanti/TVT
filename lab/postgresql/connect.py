@@ -1,9 +1,12 @@
 # Maintainer: Patrick Nikanti 2023
 
 import psycopg2
+import pathlib
 from utils import parse_json
 from psycopg2._psycopg import connection as psqlconnection
 from psycopg2._psycopg import cursor as psqlcursor
+
+FILE_DIR = pathlib.Path(__file__).parent.resolve()
 
 class Connect:
     """
@@ -17,7 +20,7 @@ class Connect:
         self.session: psycopg2.connection = session
         self.database: psycopg2.cursor = database
 
-def connect(filepath: str = "secrets.json", **kwargs) -> Connect:
+def connect(filepath: str = None, **kwargs) -> Connect:
     """
     Connect to a psql database with a configuration file.
     Use keyword arguments (kwargs) to override configuration variables.
@@ -28,7 +31,7 @@ def connect(filepath: str = "secrets.json", **kwargs) -> Connect:
         "database": psycopg2.cursor
     }
     """
-    secrets: dict = parse_json(filepath=filepath if filepath else "secrets.json")
+    secrets: dict = parse_json(filepath=filepath if filepath else pathlib.Path(FILE_DIR, "secrets.json").resolve())
 
     return _connect(
         dbname=kwargs.get('dbname', secrets['dbname']),
